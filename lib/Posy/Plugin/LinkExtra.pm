@@ -3,15 +3,15 @@ use strict;
 
 =head1 NAME
 
-Posy::Plugin::LinkExtra - Posy plugin to add extras to local links
+Posy::Plugin::LinkExtra - Posy plugin to add extras to local links.
 
 =head1 VERSION
 
-This describes version B<0.40> of Posy::Plugin::LinkExtra.
+This describes version B<0.41> of Posy::Plugin::LinkExtra.
 
 =cut
 
-our $VERSION = '0.40';
+our $VERSION = '0.41';
 
 =head1 SYNOPSIS
 
@@ -70,6 +70,9 @@ This plugin creates a 'link_extra' entry action, which should be placed
 after 'parse_entry' in the entry_action list.  If you are using
 the Posy::Plugin::ShortBody plugin, this should be placed after
 'short_body' in the entry_action list, not before it.
+If you want this to process links which have been included by the 
+entry flavour template, then the action should instead be placed
+between 'render_entry' and 'append_entry'.
 
 =cut
 use File::Spec;
@@ -115,12 +118,31 @@ sub _link_extra_do {
     my $args = shift;
     my $label = shift;
 
+    my $rel_link = $link;
+    if ($self->{url})
+    {
+	$rel_link =~ s#^$self->{url}/##;
+    }
     # find the file
     my $fullname;
     # look in the local data directory
     my @path_split = split(/\//, $self->{path}->{cat_id});
-    $fullname = File::Spec->catfile($self->{data_dir}, @path_split, $link);
+    $fullname = File::Spec->catfile($self->{data_dir}, @path_split, $rel_link);
+    my $found = 0;
     if (exists $self->{file_stats}->{$fullname})
+    {
+	$found = 1;
+    }
+    else # could have been an absolute link
+    {
+	$fullname = File::Spec->catfile($self->{data_dir}, $rel_link);
+	if (exists $self->{file_stats}->{$fullname})
+	{
+	    $found = 1;
+	}
+    }
+
+    if ($found)
     {
 	my $extras;
 	if ($args =~ /size/)
@@ -154,6 +176,74 @@ sub _link_extra_do {
     return join('', '<a href="', $link, '"', $attrib, '>', $label, '</a>');
 
 } # _link_extra_do
+
+=head1 INSTALLATION
+
+Installation needs will vary depending on the particular setup a person
+has.
+
+=head2 Administrator, Automatic
+
+If you are the administrator of the system, then the dead simple method of
+installing the modules is to use the CPAN or CPANPLUS system.
+
+    cpanp -i Posy::Plugin::LinkExtra
+
+This will install this plugin in the usual places where modules get
+installed when one is using CPAN(PLUS).
+
+=head2 Administrator, By Hand
+
+If you are the administrator of the system, but don't wish to use the
+CPAN(PLUS) method, then this is for you.  Take the *.tar.gz file
+and untar it in a suitable directory.
+
+To install this module, run the following commands:
+
+    perl Build.PL
+    ./Build
+    ./Build test
+    ./Build install
+
+Or, if you're on a platform (like DOS or Windows) that doesn't like the
+"./" notation, you can do this:
+
+   perl Build.PL
+   perl Build
+   perl Build test
+   perl Build install
+
+=head2 User With Shell Access
+
+If you are a user on a system, and don't have root/administrator access,
+you need to install Posy somewhere other than the default place (since you
+don't have access to it).  However, if you have shell access to the system,
+then you can install it in your home directory.
+
+Say your home directory is "/home/fred", and you want to install the
+modules into a subdirectory called "perl".
+
+Download the *.tar.gz file and untar it in a suitable directory.
+
+    perl Build.PL --install_base /home/fred/perl
+    ./Build
+    ./Build test
+    ./Build install
+
+This will install the files underneath /home/fred/perl.
+
+You will then need to make sure that you alter the PERL5LIB variable to
+find the modules, and the PATH variable to find the scripts (posy_one,
+posy_static).
+
+Therefore you will need to change:
+your path, to include /home/fred/perl/script (where the script will be)
+
+	PATH=/home/fred/perl/script:${PATH}
+
+the PERL5LIB variable to add /home/fred/perl/lib
+
+	PERL5LIB=/home/fred/perl/lib:${PERL5LIB}
 
 =head1 REQUIRES
 

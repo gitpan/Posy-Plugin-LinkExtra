@@ -1,6 +1,15 @@
 Revision history for Posy-Plugin-LinkExtra
 ==========================================
 
+0.41 Sun 06 February 2005
+-------------------------
+
+  * (6 Feb 2005) added INSTALL docs
+
+  * (5 Feb 2005) removed Makefile.PL
+
+  * (5 Feb 2005) fixed bug with absolute links
+
 0.40 Sat 15 January 2005
 ------------------------
 
