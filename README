@@ -1,0 +1,75 @@
+
+==== NAME ====
+
+Posy::Plugin::LinkExtra - Posy plugin to add extras to local links
+
+
+==== VERSION ====
+
+This describes version ``0.40'' of Posy::Plugin::LinkExtra.
+
+
+==== DESCRIPTION ====
+
+This plugin uses information from the Posy::Plugin::FileStats plugin to add
+extra information to flagged relative links that link to files in the data
+directory.
+
+For any link to a file, add the extra attribute 'posy_link' with the
+arguments for what extras you want for this link.
+
+For example:
+
+<a href="thingie.jpg" posy_link="size">my thingie</a>
+
+will give
+
+<a href="thingie.jpg">my thingie</a> (4K)
+
+The 'posy_link' attribute must be the last attribute in the link (to make it
+easier to parse).
+
+Options:
+
+size
+The size of the linked-to file, as "(size)" in K or M or bytes, depending on
+how large the file is.
+
+words
+The number of words in the linked-to file (as given by the FileStats
+plugin).
+
+mod
+The last-modified date of the linked-to file.
+
+This plugin creates a 'link_extra' entry action, which should be placed
+after 'parse_entry' in the entry_action list. If you are using the
+Posy::Plugin::ShortBody plugin, this should be placed after 'short_body' in
+the entry_action list, not before it.
+
+
+==== REQUIRES ====
+
+    Posy
+    Posy::Core
+    Posy::Plugin::FileStats
+
+    File::Spec
+
+    Test::More
+
+
+==== AUTHOR ====
+
+    Kathryn Andersen (RUBYKAT)
+    perlkat AT katspace dot com
+    http://www.katspace.com
+
+
+==== COPYRIGHT AND LICENCE ====
+
+Copyright (c) 2005 by Kathryn Andersen
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
