@@ -7,11 +7,11 @@ Posy::Plugin::LinkExtra - Posy plugin to add extras to local links.
 
 =head1 VERSION
 
-This describes version B<0.41> of Posy::Plugin::LinkExtra.
+This describes version B<0.42> of Posy::Plugin::LinkExtra.
 
 =cut
 
-our $VERSION = '0.41';
+our $VERSION = '0.42';
 
 =head1 SYNOPSIS
 
