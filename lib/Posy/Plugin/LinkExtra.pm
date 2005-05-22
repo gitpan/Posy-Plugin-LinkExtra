@@ -7,11 +7,11 @@ Posy::Plugin::LinkExtra - Posy plugin to add extras to local links.
 
 =head1 VERSION
 
-This describes version B<0.42> of Posy::Plugin::LinkExtra.
+This describes version B<0.4201> of Posy::Plugin::LinkExtra.
 
 =cut
 
-our $VERSION = '0.42';
+our $VERSION = '0.4201';
 
 =head1 SYNOPSIS
 
@@ -135,7 +135,8 @@ sub _link_extra_do {
     }
     else # could have been an absolute link
     {
-	$fullname = File::Spec->catfile($self->{data_dir}, $rel_link);
+	@path_split = split(/\//, $rel_link);
+	$fullname = File::Spec->catfile($self->{data_dir}, @path_split);
 	if (exists $self->{file_stats}->{$fullname})
 	{
 	    $found = 1;

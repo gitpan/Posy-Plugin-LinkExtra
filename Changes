@@ -1,6 +1,12 @@
 Revision history for Posy-Plugin-LinkExtra
 ==========================================
 
+0.4201 Fri 20 May 2005
+----------------------
+
+  * (20 May 2005) bugfix for absolute links
+  	If there was a double-slash in there, it couldn't find the file.
+
 0.42 Thu 12 May 2005
 --------------------
 

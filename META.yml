@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Posy-Plugin-LinkExtra
-version: 0.42
+version: 0.4201
 author:
   - Kathryn Andersen
 abstract: Posy plugin to add extras to local links.
@@ -14,5 +14,5 @@ build_requires:
 provides:
   Posy::Plugin::LinkExtra:
     file: lib/Posy/Plugin/LinkExtra.pm
-    version: 0.42
+    version: 0.4201
 generated_by: Module::Build version 0.261
